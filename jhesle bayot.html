@@ -1,0 +1,613 @@
+<html><head><base href="/" />
+<title>Elegant Login Page - Halloween Theme</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #2c1810, #000000);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Halloween Background Elements */
+.halloween-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.ghost {
+    position: absolute;
+    font-size: 30px;
+    opacity: 0.3;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-50px) translateX(20px);
+    }
+}
+
+.bat {
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    opacity: 0.3;
+    animation: fly 8s linear infinite;
+}
+
+@keyframes fly {
+    0% {
+        transform: translateX(-100%) translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateX(50vw) translateY(-50vh) rotate(180deg);
+    }
+    100% {
+        transform: translateX(100vw) translateY(0) rotate(360deg);
+    }
+}
+
+.spider {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    animation: descend 10s linear infinite;
+}
+
+.spider::after {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    width: 2px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes descend {
+    0% {
+        transform: translateY(-100vh);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* Original Digital Background */
+.digital-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+.circuit-line {
+    position: absolute;
+    background: rgba(255, 165, 0, 0.1);
+    animation: circuit-flow 8s linear infinite;
+}
+
+@keyframes circuit-flow {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+.binary-rain {
+    position: absolute;
+    color: rgba(255, 165, 0, 0.15);
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    animation: binary-fall 10s linear infinite;
+}
+
+@keyframes binary-fall {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+.login-container {
+    background: rgba(20, 20, 20, 0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(255, 117, 24, 0.2);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h1 {
+    color: #ff7518;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.login-header p {
+    color: #ffa07a;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ffa07a;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ff7518;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(20, 20, 20, 0.8);
+    color: #fff;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #ff4500;
+    box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.2);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 0.75rem;
+    background: #ff7518;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background: #ff4500;
+    transform: translateY(-1px);
+}
+
+.btn-login:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.forgot-password a {
+    color: #ff7518;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+    color: #ff4500;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Adding new styles for password requirements */
+.password-requirements {
+    display: none;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 0.8rem;
+    color: #ffa07a;
+}
+
+.password-requirements.show {
+    display: block;
+}
+
+.requirement {
+    margin: 0.2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.requirement.valid {
+    color: #00ff00;
+}
+
+.requirement::before {
+    content: '✖';
+    color: #ff7518;
+}
+
+.requirement.valid::before {
+    content: '✓';
+    color: #00ff00;
+}
+
+#errorRequirements {
+    display: none;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 0.8rem;
+    color: #ffa07a;
+}
+
+#errorRequirements.show {
+    display: block;
+}
+
+/* Add these keyframes for the shake animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Add this class for the error state */
+.error-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    border-color: #ff0000 !important;
+    color: #ff0000 !important;
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#togglePassword:hover {
+    color: #ff4500;
+}
+
+#togglePassword:focus {
+    outline: none;
+}
+</style>
+</head>
+<body>
+
+<div class="halloween-background" id="halloweenBackground"></div>
+<div class="digital-background" id="digitalBackground"></div>
+
+<div class="login-container">
+    <div class="login-header">
+        <h1>Jhesle Gwapo</h1>
+        <p>Please sign in to continue</p>
+    </div>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+            <div class="password-requirements" id="emailRequirements">
+                <div class="requirement" id="formatReq">Valid email format (example@domain.com)</div>
+                <div class="requirement" id="domainReq">Contains domain extension (.com, .net, etc)</div>
+                <div class="requirement" id="noSpaceReq">No spaces allowed</div>
+                <div class="requirement" id="atSymbolReq">Contains @ symbol</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-input-wrapper" style="position: relative;">
+                <input type="password" id="password" name="password" required>
+                <button type="button" id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ff7518; cursor: pointer; padding: 5px;">
+                    <span id="toggleIcon">👁️</span>
+                </button>
+            </div>
+            <div class="password-requirements" id="passwordRequirements">
+                <div class="requirement" id="lengthReq">At least 8 characters long</div>
+                <div class="requirement" id="upperReq">Contains uppercase letter</div>
+                <div class="requirement" id="lowerReq">Contains lowercase letter</div>
+                <div class="requirement" id="numberReq">Contains number</div>
+                <div class="requirement" id="specialReq">Contains special character</div>
+            </div>
+        </div>
+        <button type="submit" class="btn-login">Sign In</button>
+    </form>
+    <div class="forgot-password">
+        <a href="https://example.com/reset-password">Forgot your password?</a>
+    </div>
+</div>
+
+<script>
+const emailInput = document.getElementById('email');
+const emailRequirements = {
+    formatReq: str => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str),
+    domainReq: str => /\.[a-z]{2,}$/i.test(str),
+    noSpaceReq: str => !/\s/.test(str),
+    atSymbolReq: str => str.includes('@')
+};
+
+emailInput.addEventListener('input', function() {
+    const email = this.value;
+    let isValid = true;
+    
+    // Check each requirement
+    for (const [requirement, validationFunc] of Object.entries(emailRequirements)) {
+        const element = document.getElementById(requirement);
+        if (validationFunc(email)) {
+            element.classList.add('valid');
+        } else {
+            element.classList.remove('valid');
+            isValid = false;
+        }
+    }
+    
+    // Update email input border color based on validity
+    this.style.borderColor = isValid ? '#00ff00' : '#ff7518';
+});
+
+emailInput.addEventListener('focus', () => {
+    document.getElementById('emailRequirements').classList.add('show');
+});
+
+emailInput.addEventListener('blur', () => {
+    // Only hide requirements if email is valid or empty
+    if (emailInput.value === '') {
+        document.getElementById('emailRequirements').classList.remove('show');
+    }
+});
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    
+    // Check if all email requirements are met
+    const allEmailRequirementsMet = Object.values(emailRequirements)
+        .every(requirement => requirement(email));
+    
+    // Check if all password requirements are met
+    const allPasswordRequirementsMet = Object.values(requirements)
+        .every(requirement => requirement(password));
+    
+    // Remove any existing error classes
+    emailInput.classList.remove('error-shake');
+    passwordInput.classList.remove('error-shake');
+    
+    if (!allEmailRequirementsMet) {
+        emailInput.classList.add('error-shake');
+        // Remove the class after animation completes
+        setTimeout(() => emailInput.classList.remove('error-shake'), 500);
+        return;
+    }
+    
+    if (!allPasswordRequirementsMet) {
+        passwordInput.classList.add('error-shake');
+        // Remove the class after animation completes
+        setTimeout(() => passwordInput.classList.remove('error-shake'), 500);
+        return;
+    }
+    
+    // Simulate API call with loading state
+    const loginBtn = document.querySelector('.btn-login');
+    loginBtn.disabled = true;
+    loginBtn.innerHTML = 'Signing in...';
+    
+    // Simulate login request
+    setTimeout(() => {
+        // Simulate wrong password (for demo purposes, consider any password less than 8 chars as wrong)
+        if (password.length < 8) {
+            passwordInput.classList.add('error-shake');
+            setTimeout(() => passwordInput.classList.remove('error-shake'), 500);
+            alert('Invalid credentials. Please try again.');
+        } else {
+            alert('Login successful!');
+            console.log('Login credentials:', {
+                email: email,
+                passwordLength: password.length
+            });
+        }
+        
+        // Reset button state
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = 'Sign In';
+    }, 1500);
+});
+
+// Add these event listeners to remove error state when user starts typing again
+document.getElementById('email').addEventListener('input', function() {
+    this.classList.remove('error-shake');
+});
+
+document.getElementById('password').addEventListener('input', function() {
+    this.classList.remove('error-shake');
+});
+
+// Add proper password input validation
+const passwordInput = document.getElementById('password');
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let isValid = true;
+    
+    // Check each requirement
+    for (const [requirement, validationFunc] of Object.entries(requirements)) {
+        const element = document.getElementById(requirement);
+        if (validationFunc(password)) {
+            element.classList.add('valid');
+        } else {
+            element.classList.remove('valid');
+            isValid = false;
+        }
+    }
+    
+    // Update password input border color based on validity
+    this.style.borderColor = isValid ? '#00ff00' : '#ff7518';
+});
+
+// Add password validation
+const requirements = {
+    lengthReq: str => str.length >= 8,
+    upperReq: str => /[A-Z]/.test(str),
+    lowerReq: str => /[a-z]/.test(str),
+    numberReq: str => /[0-9]/.test(str),
+    specialReq: str => /[^A-Za-z0-9]/.test(str)
+};
+
+passwordInput.addEventListener('focus', () => {
+    document.getElementById('passwordRequirements').classList.add('show');
+});
+
+passwordInput.addEventListener('blur', () => {
+    // Only hide requirements if password is valid or empty
+    if (passwordInput.value === '') {
+        document.getElementById('passwordRequirements').classList.remove('show');
+    }
+});
+
+// Toggle password visibility
+const togglePassword = document.getElementById('togglePassword');
+const toggleIcon = document.getElementById('toggleIcon');
+
+togglePassword.addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.textContent = '🔒';
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.textContent = '👁️';
+    }
+});
+
+// Prevent the toggle button from submitting the form
+togglePassword.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+});
+
+// Create digital background elements
+function createDigitalBackground() {
+    const background = document.getElementById('digitalBackground');
+    
+    for (let i = 0; i < 20; i++) {
+        const line = document.createElement('div');
+        line.className = 'circuit-line';
+        line.style.top = `${Math.random() * 100}%`;
+        line.style.width = `${Math.random() * 100 + 50}px`;
+        line.style.height = '1px';
+        line.style.animationDelay = `${Math.random() * 5}s`;
+        background.appendChild(line);
+    }
+    
+    for (let i = 0; i < 30; i++) {
+        const binary = document.createElement('div');
+        binary.className = 'binary-rain';
+        binary.style.left = `${Math.random() * 100}%`;
+        binary.style.animationDelay = `${Math.random() * 5}s`;
+        binary.textContent = Array.from({length: 20}, () => Math.random() > 0.5 ? '1' : '0').join('');
+        background.appendChild(binary);
+    }
+}
+
+// Create Halloween background elements
+function createHalloweenBackground() {
+    const background = document.getElementById('halloweenBackground');
+    
+    // Add ghosts
+    for (let i = 0; i < 10; i++) {
+        const ghost = document.createElement('div');
+        ghost.className = 'ghost';
+        ghost.textContent = '👻';
+        ghost.style.left = `${Math.random() * 100}%`;
+        ghost.style.top = `${Math.random() * 100}%`;
+        ghost.style.animationDelay = `${Math.random() * 5}s`;
+        background.appendChild(ghost);
+    }
+    
+    // Add bats
+    for (let i = 0; i < 8; i++) {
+        const bat = document.createElement('div');
+        bat.className = 'bat';
+        bat.textContent = '🦇';
+        bat.style.top = `${Math.random() * 100}%`;
+        bat.style.animationDelay = `${Math.random() * 5}s`;
+        background.appendChild(bat);
+    }
+    
+    // Add spiders
+    for (let i = 0; i < 5; i++) {
+        const spider = document.createElement('div');
+        spider.className = 'spider';
+        spider.style.left = `${Math.random() * 100}%`;
+        spider.style.animationDelay = `${Math.random() * 5}s`;
+        background.appendChild(spider);
+    }
+}
+
+// Initialize backgrounds
+createDigitalBackground();
+createHalloweenBackground();
+
+// Periodically refresh binary numbers
+setInterval(() => {
+    document.querySelectorAll('.binary-rain').forEach(el => {
+        el.textContent = Array.from({length: 20}, () => Math.random() > 0.5 ? '1' : '0').join('');
+    });
+}, 3000);
+</script>
+
+</body></html>
